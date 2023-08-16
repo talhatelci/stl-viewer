@@ -1,32 +1,35 @@
-import { useRef, useState } from "react";
+import { PathContext } from "./StlViewer.jsx";
+import { useContext, useEffect, useRef, useState } from "react";
 
-const ModelForm = ({ setModelPath, loaded }) => {
+const ModelForm = () => {
+  const { filePath, setFilePath } = useContext(PathContext);
+
   const fileInput = useRef(null);
-  const [showError, setShowError] = useState(false);
+  const [errorVisible, setErrorVisible] = useState(false);
 
   const onChange = () => {
     let path = fileInput.current.value;
     if (path.slice(-4) != ".stl") {
-      setShowError(true);
+      setErrorVisible(true);
       return;
     }
 
     let url = URL.createObjectURL(fileInput.current.files[0]);
-    setShowError(false);
-    setModelPath(url);
+    setFilePath(url);
+    setErrorVisible(false);
+    fileInput.current.value = "";
+    delete fileInput.current.files[0];
+    console.log(filePath);
   };
 
   const loadExampleModel = (event) => {
     event.preventDefault();
-    setModelPath("/teapot.stl");
+    setFilePath("/teapot.stl");
+    setErrorVisible(false);
   };
 
   return (
-    <form
-      className={`absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-y-2 ${
-        loaded ? "hidden" : "flex"
-      }`}
-    >
+    <form className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-y-2">
       <label
         htmlFor="stl"
         className="cursor-pointer bg-green-800 p-4 text-xl text-white transition hover:bg-green-900"
@@ -51,8 +54,8 @@ const ModelForm = ({ setModelPath, loaded }) => {
 
       {/* Error message */}
       <p
-        className={`pointer-events-none mt-2 text-red-600 transition-opacity ${
-          showError ? "opacity-100" : "opacity-0"
+        className={`mt-2 text-red-600 transition-opacity ${
+          errorVisible ? "custom-visible" : "custom-hidden"
         }`}
       >
         Please upload a valid Stl file.
