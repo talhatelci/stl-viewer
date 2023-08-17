@@ -3,7 +3,7 @@ import { OrbitControls } from "@react-three/drei";
 const Settings3D = () => {
   return (
     <>
-      <OrbitControls />
+      <OrbitControls makeDefault />
     </>
   );
 };

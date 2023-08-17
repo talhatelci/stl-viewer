@@ -2,10 +2,11 @@ import { PathContext } from "./StlViewer.jsx";
 import { useContext } from "react";
 
 const CloseButton = () => {
-  const { setFilePath } = useContext(PathContext);
+  const { setFilePath, setLoaded } = useContext(PathContext);
 
   const onClick = () => {
     setFilePath(null);
+    setLoaded(false);
   };
 
   return (

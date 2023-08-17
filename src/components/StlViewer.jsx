@@ -1,24 +1,28 @@
 import ModelForm from "./ModelForm.jsx";
 import Canvas3D from "./Canvas3D.jsx";
 import CloseButton from "./CloseButton.jsx";
+import LoadingAnimation from "./LoadingAnimation.jsx";
 import { useState, createContext, useMemo, useEffect } from "react";
 
 export const PathContext = createContext();
 
 const StlViewer = () => {
   const [filePath, setFilePath] = useState(null);
+  const [loaded, setLoaded] = useState(false);
 
-  useEffect(() => {
-    // console.log("File Path: ", filePath);
-    // console.log("Type: ", typeof filePath);
-  }, [filePath]);
+  // useEffect(() => {
+  //   // console.log("File Path: ", filePath);
+  //   // console.log("Type: ", typeof filePath);
+  // }, [filePath]);
 
   const contextValue = useMemo(() => {
     return {
       filePath,
       setFilePath,
+      loaded,
+      setLoaded,
     };
-  });
+  }, [filePath, loaded]);
 
   return (
     <PathContext.Provider value={contextValue}>
@@ -42,8 +46,8 @@ const StlViewer = () => {
 
             {/* Canvas */}
             <div
-              className={`absolute inset-0 bg-red-100 transition-opacity ${
-                filePath ? "custom-visible" : "custom-hidden"
+              className={`absolute inset-0 transition-opacity ${
+                loaded ? "custom-visible" : "custom-hidden"
               }`}
             >
               <Canvas3D />
@@ -56,6 +60,11 @@ const StlViewer = () => {
               }`}
             >
               <CloseButton />
+            </div>
+
+            {/* Loading animation */}
+            <div className="pointer-events-none absolute inset-0">
+              <LoadingAnimation />
             </div>
           </div>
 
