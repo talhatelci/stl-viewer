@@ -34,7 +34,7 @@ const StlViewer = () => {
           </h1>
 
           {/* Viewer */}
-          <div className="relative aspect-square w-full border border-green-800">
+          <div className="relative aspect-square w-full border border-green-800 lg:aspect-auto lg:h-[calc(100vh-8rem)] lg:w-2/3">
             {/* Upload form */}
             <div
               className={`absolute inset-0 transition-opacity ${
@@ -56,7 +56,7 @@ const StlViewer = () => {
             {/* Close current model */}
             <div
               className={`absolute right-2 top-2 h-6 w-6 transition-opacity ${
-                filePath ? "custom-visible" : "custom-hidden"
+                loaded ? "custom-visible" : "custom-hidden"
               }`}
             >
               <CloseButton />
@@ -68,8 +68,8 @@ const StlViewer = () => {
             </div>
           </div>
 
-          {/* Info */}
-          <div className="h-64 w-full border border-green-800"></div>
+          {/* Info Panel */}
+          <div className="h-64 w-full border border-green-800 lg:w-1/3"></div>
         </div>
       </div>
     </PathContext.Provider>

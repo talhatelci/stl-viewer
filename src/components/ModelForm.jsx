@@ -19,7 +19,6 @@ const ModelForm = () => {
     setErrorVisible(false);
     fileInput.current.value = "";
     delete fileInput.current.files[0];
-    console.log(filePath);
   };
 
   const loadExampleModel = (event) => {
@@ -32,7 +31,7 @@ const ModelForm = () => {
     <form className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-y-2">
       <label
         htmlFor="stl"
-        className="cursor-pointer bg-green-800 p-4 text-xl text-white transition hover:bg-green-900"
+        className="text-md cursor-pointer bg-green-800 p-4 text-white transition hover:bg-green-900 lg:text-xl"
       >
         Upload Stl Model
       </label>
@@ -54,8 +53,8 @@ const ModelForm = () => {
 
       {/* Error message */}
       <p
-        className={`mt-2 text-red-600 transition-opacity ${
-          errorVisible ? "custom-visible" : "custom-hidden"
+        className={`mt-2 text-center text-red-600 transition-opacity ${
+          errorVisible ? "custom-visible" : "custom-hidden hidden"
         }`}
       >
         Please upload a valid Stl file.
