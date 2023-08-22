@@ -2,6 +2,7 @@ import ModelForm from "./ModelForm.jsx";
 import Canvas3D from "./Canvas3D.jsx";
 import CloseButton from "./CloseButton.jsx";
 import LoadingAnimation from "./LoadingAnimation.jsx";
+import Panel from "./Panel.jsx";
 import { useState, createContext, useMemo, useEffect } from "react";
 
 export const PathContext = createContext();
@@ -9,11 +10,7 @@ export const PathContext = createContext();
 const StlViewer = () => {
   const [filePath, setFilePath] = useState(null);
   const [loaded, setLoaded] = useState(false);
-
-  // useEffect(() => {
-  //   // console.log("File Path: ", filePath);
-  //   // console.log("Type: ", typeof filePath);
-  // }, [filePath]);
+  const [upAxis, setUpAxis] = useState("Z");
 
   const contextValue = useMemo(() => {
     return {
@@ -21,8 +18,10 @@ const StlViewer = () => {
       setFilePath,
       loaded,
       setLoaded,
+      upAxis,
+      setUpAxis,
     };
-  }, [filePath, loaded]);
+  }, [filePath, loaded, upAxis]);
 
   return (
     <PathContext.Provider value={contextValue}>
@@ -69,7 +68,9 @@ const StlViewer = () => {
           </div>
 
           {/* Info Panel */}
-          <div className="h-64 w-full border border-green-800 lg:w-1/3"></div>
+          <div className="relative h-64 w-full border border-green-800 lg:w-1/3">
+            <Panel />
+          </div>
         </div>
       </div>
     </PathContext.Provider>
