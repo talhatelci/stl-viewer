@@ -1,6 +1,8 @@
 import UpAxis from "./UpAxis.jsx";
+import Sizes from "./Sizes.jsx";
 import { PathContext } from "./StlViewer.jsx";
 import { useContext } from "react";
+import PanelSection from "./PanelSection.jsx";
 
 const Panel = () => {
   const { loaded } = useContext(PathContext);
@@ -13,7 +15,13 @@ const Panel = () => {
           : "pointer-events-none opacity-50"
       }`}
     >
-      <UpAxis />
+      <PanelSection name={"UpAxis"}>
+        <UpAxis />
+      </PanelSection>
+
+      <PanelSection name={"Sizes"}>
+        <Sizes />
+      </PanelSection>
     </div>
   );
 };

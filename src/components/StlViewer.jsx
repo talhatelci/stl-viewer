@@ -11,6 +11,7 @@ const StlViewer = () => {
   const [filePath, setFilePath] = useState(null);
   const [loaded, setLoaded] = useState(false);
   const [upAxis, setUpAxis] = useState("Z");
+  const [sizes, setSizes] = useState({ x: 0, y: 0, z: 0 });
 
   const contextValue = useMemo(() => {
     return {
@@ -20,8 +21,10 @@ const StlViewer = () => {
       setLoaded,
       upAxis,
       setUpAxis,
+      sizes,
+      setSizes,
     };
-  }, [filePath, loaded, upAxis]);
+  }, [filePath, loaded, upAxis, sizes]);
 
   return (
     <PathContext.Provider value={contextValue}>

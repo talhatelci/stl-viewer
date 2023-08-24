@@ -6,7 +6,7 @@ import { useThree } from "@react-three/fiber";
 import { Grid } from "@react-three/drei";
 
 const Scene3D = () => {
-  const { filePath, setLoaded, upAxis } = useContext(PathContext);
+  const { filePath, setLoaded, upAxis, setSizes } = useContext(PathContext);
   const [stlGeometry, setStlGeometry] = useState(new BufferGeometry());
   const { camera, controls } = useThree();
   const loader = useRef(new STLLoader());
@@ -14,6 +14,16 @@ const Scene3D = () => {
   const stlMesh = useRef(null);
   const [boundingBox, setBoundingBox] = useState(new Box3());
   const [grid, setGrid] = useState({ size: 10, cellSize: 1 });
+
+  const axesHelper = useRef(null);
+
+  useEffect(() => {
+    if (upAxis == "Y") {
+      axesHelper.current.setColors(0x0000ff, 0x00ff00, 0xff0000);
+    } else {
+      axesHelper.current.setColors(0x00ff00, 0x0000ff, 0xff0000);
+    }
+  }, [upAxis, grid]);
 
   useEffect(() => {
     if (!filePath) {
@@ -36,9 +46,11 @@ const Scene3D = () => {
 
       let sizes = {
         x: Math.abs(boundingBox.max.x - boundingBox.min.x),
-        y: Math.abs(boundingBox.max.z - boundingBox.min.z),
-        z: Math.abs(boundingBox.max.y - boundingBox.min.y),
+        y: Math.abs(boundingBox.max.y - boundingBox.min.y),
+        z: Math.abs(boundingBox.max.z - boundingBox.min.z),
       };
+
+      setSizes(sizes);
 
       let min = Math.min(sizes.x, sizes.z);
       let max = Math.max(sizes.x, sizes.z);
@@ -54,17 +66,22 @@ const Scene3D = () => {
 
       setGrid({ size: gs, cellSize: cs / gs });
 
-      console.log("Size: ", max, " CellSize: ", cs, " GridSize: ", gs);
-
       camera.position.set(center.x, center.y, boundingBox.max.z * 2);
       controls.target = center;
     });
   }, [filePath]);
 
-  useEffect(() => {
-    console.log("UpAxis: ", upAxis);
-    console.log(stlGeometry);
-  }, [upAxis]);
+  // useEffect(() => {
+  //   if (stlGeometry.boundingBox) {
+  //     setSizes((current) => {
+  //       let updated = { ...current };
+  //       updated.y = current.z;
+  //       updated.z = current.y;
+
+  //       return updated;
+  //     });
+  //   }
+  // }, [upAxis]);
 
   return (
     <group>
@@ -89,13 +106,8 @@ const Scene3D = () => {
         fadeStrength={0}
         fadeDistance={1000}
       />
-      {/* 
-      <mesh rotation-x={-Math.PI * 0.5}>
-        <planeGeometry args={[10, 10]} />
-        <meshNormalMaterial />
-      </mesh> */}
 
-      <axesHelper args={[grid.size * 0.5]} />
+      <axesHelper args={[grid.size * 0.5]} ref={axesHelper} />
     </group>
   );
 };
