@@ -12,6 +12,7 @@ const StlViewer = () => {
   const [loaded, setLoaded] = useState(false);
   const [upAxis, setUpAxis] = useState("Z");
   const [sizes, setSizes] = useState({ x: 0, y: 0, z: 0 });
+  const [color, setColor] = useState("FCF7F8");
 
   const contextValue = useMemo(() => {
     return {
@@ -23,8 +24,10 @@ const StlViewer = () => {
       setUpAxis,
       sizes,
       setSizes,
+      color,
+      setColor,
     };
-  }, [filePath, loaded, upAxis, sizes]);
+  }, [filePath, loaded, upAxis, sizes, color]);
 
   return (
     <PathContext.Provider value={contextValue}>
@@ -71,7 +74,7 @@ const StlViewer = () => {
           </div>
 
           {/* Info Panel */}
-          <div className="relative h-64 w-full border border-green-800 lg:w-1/3">
+          <div className="w-full lg:w-1/3">
             <Panel />
           </div>
         </div>

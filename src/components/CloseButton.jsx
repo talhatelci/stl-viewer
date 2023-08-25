@@ -2,7 +2,7 @@ import { PathContext } from "./StlViewer.jsx";
 import { useContext } from "react";
 
 const CloseButton = () => {
-  const { setFilePath, setLoaded, setUpAxis, setSizes } =
+  const { setFilePath, setLoaded, setUpAxis, setSizes, setColor } =
     useContext(PathContext);
 
   const onClick = () => {
@@ -10,6 +10,7 @@ const CloseButton = () => {
     setLoaded(false);
     setUpAxis("Z");
     setSizes({ x: 0, y: 0, z: 0 });
+    setColor("FCF7F8");
   };
 
   return (

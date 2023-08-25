@@ -1,12 +1,21 @@
 import { STLLoader } from "three/examples/jsm/loaders/STLLoader.js";
 import { useRef, useEffect, useState, useContext } from "react";
-import { Box3, BufferGeometry, DoubleSide, Vector3 } from "three";
+import {
+  Box3,
+  BufferGeometry,
+  Color,
+  CubeTextureLoader,
+  DoubleSide,
+  Vector3,
+} from "three";
 import { PathContext } from "./StlViewer.jsx";
 import { useThree } from "@react-three/fiber";
 import { Grid } from "@react-three/drei";
+import { gsap } from "gsap";
 
 const Scene3D = () => {
-  const { filePath, setLoaded, upAxis, setSizes } = useContext(PathContext);
+  const { filePath, setLoaded, upAxis, setSizes, color } =
+    useContext(PathContext);
   const [stlGeometry, setStlGeometry] = useState(new BufferGeometry());
   const { camera, controls } = useThree();
   const loader = useRef(new STLLoader());
@@ -71,6 +80,30 @@ const Scene3D = () => {
     });
   }, [filePath]);
 
+  useEffect(() => {
+    let targetColor = new Color("#" + color);
+    // stlMesh.current.material.color =
+
+    let tl = gsap.to(stlMesh.current.material.color, {
+      duration: 0.5,
+      onUpdate: () => {
+        stlMesh.current.material.color.lerp(targetColor, tl.progress());
+      },
+    });
+  }, [color]);
+
+  // useEffect(() => {
+  //   let envmap = new CubeTextureLoader().load([
+  //     "envmap/px.png",
+  //     "envmap/nx.png",
+  //     "envmap/py.png",
+  //     "envmap/ny.png",
+  //     "envmap/pz.png",
+  //     "envmap/nz.png",
+  //   ]);
+  //   stlMesh.current.material.envMap = envmap;
+  // }, []);
+
   // useEffect(() => {
   //   if (stlGeometry.boundingBox) {
   //     setSizes((current) => {
@@ -92,7 +125,7 @@ const Scene3D = () => {
         rotation-z={upAxis == "Z" ? -Math.PI * 0.5 : 0}
         rotation-y={upAxis == "Y" ? Math.PI * 0.5 : 0}
       >
-        <meshNormalMaterial side={DoubleSide} />
+        <meshStandardMaterial side={DoubleSide} />
       </mesh>
       {/* <box3Helper box={boundingBox} /> */}
 
