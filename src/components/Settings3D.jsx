@@ -4,7 +4,7 @@ import { Perf } from "r3f-perf";
 const Settings3D = () => {
   return (
     <>
-      <Perf position="top-left" />
+      {/* <Perf position="top-left" /> */}
       <OrbitControls makeDefault />
 
       <Environment

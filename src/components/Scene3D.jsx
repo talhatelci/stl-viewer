@@ -21,7 +21,6 @@ const Scene3D = () => {
   const loader = useRef(new STLLoader());
 
   const stlMesh = useRef(null);
-  const [boundingBox, setBoundingBox] = useState(new Box3());
   const [grid, setGrid] = useState({ size: 10, cellSize: 1 });
 
   const axesHelper = useRef(null);
@@ -48,7 +47,6 @@ const Scene3D = () => {
 
       geometry.computeBoundingBox();
       let boundingBox = geometry.boundingBox;
-      setBoundingBox(boundingBox);
 
       let center = new Vector3();
       boundingBox.getCenter(center);
@@ -75,14 +73,15 @@ const Scene3D = () => {
 
       setGrid({ size: gs, cellSize: cs / gs });
 
-      camera.position.set(center.x, center.y, boundingBox.max.z * 2);
-      controls.target = center;
+      camera.position.copy(
+        new Vector3(center.x, center.z, center.y).multiplyScalar(4)
+      );
+      controls.target = new Vector3(center.x, center.z, center.y);
     });
   }, [filePath]);
 
   useEffect(() => {
     let targetColor = new Color("#" + color);
-    // stlMesh.current.material.color =
 
     let tl = gsap.to(stlMesh.current.material.color, {
       duration: 0.5,
@@ -91,30 +90,6 @@ const Scene3D = () => {
       },
     });
   }, [color]);
-
-  // useEffect(() => {
-  //   let envmap = new CubeTextureLoader().load([
-  //     "envmap/px.png",
-  //     "envmap/nx.png",
-  //     "envmap/py.png",
-  //     "envmap/ny.png",
-  //     "envmap/pz.png",
-  //     "envmap/nz.png",
-  //   ]);
-  //   stlMesh.current.material.envMap = envmap;
-  // }, []);
-
-  // useEffect(() => {
-  //   if (stlGeometry.boundingBox) {
-  //     setSizes((current) => {
-  //       let updated = { ...current };
-  //       updated.y = current.z;
-  //       updated.z = current.y;
-
-  //       return updated;
-  //     });
-  //   }
-  // }, [upAxis]);
 
   return (
     <group>
@@ -125,9 +100,8 @@ const Scene3D = () => {
         rotation-z={upAxis == "Z" ? -Math.PI * 0.5 : 0}
         rotation-y={upAxis == "Y" ? Math.PI * 0.5 : 0}
       >
-        <meshStandardMaterial side={DoubleSide} />
+        <meshStandardMaterial side={DoubleSide} envMapIntensity={1.2} />
       </mesh>
-      {/* <box3Helper box={boundingBox} /> */}
 
       <Grid
         scale={grid.size}
