@@ -1,8 +1,7 @@
-import { PathContext } from "./StlViewer.jsx";
-import { useContext } from "react";
+import { usePanel } from "../PanelContext.jsx";
 
 const Sizes = () => {
-  const { sizes } = useContext(PathContext);
+  const { sizes } = usePanel();
 
   return (
     <div className="flex gap-x-2 opacity-80">

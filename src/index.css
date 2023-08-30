@@ -5,7 +5,6 @@
 .custom-hidden {
   opacity: 0;
   pointer-events: none;
-  z-index: -10;
   user-select: none;
 }
 

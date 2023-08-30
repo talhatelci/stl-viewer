@@ -1,17 +1,16 @@
+import PanelSection from "./PanelSection.jsx";
 import UpAxis from "./UpAxis.jsx";
 import Sizes from "./Sizes.jsx";
-import { PathContext } from "./StlViewer.jsx";
-import { useContext } from "react";
-import PanelSection from "./PanelSection.jsx";
-import Material from "./Material.jsx";
+import Materials from "./Materials.jsx";
+import { useLoadStatus } from "../LoadStatusContext.jsx";
 
 const Panel = () => {
-  const { loaded } = useContext(PathContext);
+  const { loadStatus } = useLoadStatus();
 
   return (
     <div
-      className={`flex w-full flex-col gap-y-8 border border-green-800 p-4 text-green-900 ${
-        loaded
+      className={`flex w-full flex-col gap-y-8 border border-green-800 p-4 text-green-900 lg:w-1/3 ${
+        loadStatus == 2
           ? "pointer-events-auto opacity-100"
           : "pointer-events-none opacity-50"
       }`}
@@ -25,7 +24,7 @@ const Panel = () => {
       </PanelSection>
 
       <PanelSection name="Material">
-        <Material />
+        <Materials />
       </PanelSection>
     </div>
   );

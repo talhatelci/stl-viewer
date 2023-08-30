@@ -1,8 +1,7 @@
-import { PathContext } from "./StlViewer.jsx";
-import { useContext } from "react";
+import { usePanel } from "../PanelContext.jsx";
 
 const UpAxis = () => {
-  const { upAxis, setUpAxis } = useContext(PathContext);
+  const { upAxis, setUpAxis } = usePanel();
 
   const onChange = (e) => {
     setUpAxis(e.target.value);
