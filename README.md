@@ -1,13 +1,13 @@
 ## Run Demo Locally
 
 ```bash
-git clone https://github.com/talhatelci/stl-analyzer
+git clone https://github.com/talhatelci/stl-viewer
 ```
 
 Go to the project directory
 
 ```bash
-cd stl-analyzer
+cd stl-viewer
 ```
 
 Install dependencies
